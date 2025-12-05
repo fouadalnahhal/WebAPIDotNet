@@ -1,9 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Cors;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using System.Threading.Tasks;
 using WebAPIDotNet.DTO;
 using WebAPIDotNet.Models;
 
@@ -14,13 +11,13 @@ namespace WebAPIDotNet.Controllers
     public class DepartmentController : ControllerBase
     {
         WebAPIDotNetContext _context;
-
         public DepartmentController(WebAPIDotNetContext context)
         {
             _context = context;
         }
 
         [HttpGet("p")]
+        [Authorize]
         public ActionResult<List<DeptWithEmpCountDTO>> GetDeptDetails()
         {
             var deptlist =
