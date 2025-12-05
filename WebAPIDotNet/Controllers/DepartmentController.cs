@@ -24,7 +24,7 @@ namespace WebAPIDotNet.Controllers
         public ActionResult<List<DeptWithEmpCountDTO>> GetDeptDetails()
         {
             var deptlist =
-                _context.Departments.Include(d => d.Employees).ToList();
+                _context.Department.Include(d => d.Employees).ToList();
 
 
             var deptListDto = deptlist.Select(x => new DeptWithEmpCountDTO
@@ -41,7 +41,7 @@ namespace WebAPIDotNet.Controllers
         [HttpGet]
         public IActionResult DispalyAllDepartment()
         {
-            var departments = _context.Departments.ToList();
+            var departments = _context.Department.ToList();
             return Ok(departments);
         }
 
@@ -49,7 +49,7 @@ namespace WebAPIDotNet.Controllers
         [Route("{id:int}")]
         public IActionResult GetDeptById(int id)
         {
-            var department = _context.Departments.Find(id);
+            var department = _context.Department.Find(id);
             if (department == null)
             {
                 return NotFound();
@@ -60,7 +60,7 @@ namespace WebAPIDotNet.Controllers
         [HttpGet("{name:alpha}")]
         public IActionResult GetDeptByName(string name)
         {
-            var department = _context.Departments.FirstOrDefault(x => x.Name == name);
+            var department = _context.Department.FirstOrDefault(x => x.Name == name);
             if (department == null)
             {
                 return NotFound();
@@ -71,7 +71,7 @@ namespace WebAPIDotNet.Controllers
         [HttpPost]
         public async Task<IActionResult> AddDept(Department department)
         {
-            _context.Departments.Add(department);
+            _context.Department.Add(department);
             await _context.SaveChangesAsync();
             return CreatedAtAction("GetDeptById", new { id = department.Id }, department);
         }
@@ -79,7 +79,7 @@ namespace WebAPIDotNet.Controllers
         [HttpPut("{id:int}")]
         public IActionResult UpdateDept(int id, Department department)
         {
-            var departmentEntity = _context.Departments.Find(id);
+            var departmentEntity = _context.Department.Find(id);
             if (department == null)
             {
                 return NotFound();

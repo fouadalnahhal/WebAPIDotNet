@@ -1,6 +1,8 @@
 
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using WebAPIDotNet.Models;
+using WebAPIDotNet.Services;
 
 namespace WebAPIDotNet
 {
@@ -9,6 +11,15 @@ namespace WebAPIDotNet
         public static void Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
+
+            // Add services to the container.
+            builder.Services.AddDbContext<WebAPIDotNetContext>(options =>
+            {
+                options.UseSqlServer(builder.Configuration.GetConnectionString("WebAPIDotNetConnectionString"));
+            });
+
+            builder.Services.AddIdentity<ApplicationUser, IdentityRole>()
+                .AddEntityFrameworkStores<WebAPIDotNetContext>();
 
             builder.Services.AddCors(options =>
             {
@@ -20,18 +31,13 @@ namespace WebAPIDotNet
                 });
             });
 
-            // Add services to the container.
-
             builder.Services.AddControllers().ConfigureApiBehaviorOptions(options =>
                 options.SuppressModelStateInvalidFilter = true);
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
 
-            builder.Services.AddDbContext<WebAPIDotNetContext>(options =>
-            {
-                options.UseSqlServer(builder.Configuration.GetConnectionString("WebAPIDotNetConnectionString"));
-            });
+            builder.Services.AddScoped<ITokenService, TokenService>();
 
             var app = builder.Build();
 
