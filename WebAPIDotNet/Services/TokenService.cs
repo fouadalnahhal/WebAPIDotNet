@@ -43,8 +43,6 @@ namespace WebAPIDotNet.Services
                 claims: UserClaims,
                 signingCredentials: new SigningCredentials(SignInKey, SecurityAlgorithms.HmacSha256Signature));
 
-            //generate token response
-
             return new JwtSecurityTokenHandler().WriteToken(token);
         }
 
