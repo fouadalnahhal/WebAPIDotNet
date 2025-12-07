@@ -1,4 +1,3 @@
-```markdown
 # WebAPIDotNet
 
 Minimal ASP.NET Core Web API template (.NET 8+).
@@ -34,4 +33,3 @@ dotnet test   # if tests exist
 
 ## License
 MIT
-```
